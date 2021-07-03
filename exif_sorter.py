@@ -11,7 +11,7 @@ ONE_DAY_IN_SEC = (datetime.datetime(1970, 1, 2) - datetime.datetime(1970, 1, 1))
 GPS_DISTANCE = 0.2
 
 
-def get_meta(images_paths: list[str]) -> pd.DataFrame:
+def get_meta(images_paths):
 	"""
 	Read images from list, return this paths with meta data (exif)
 
@@ -78,7 +78,7 @@ def add_clusters_by_date(data: pd.DataFrame) -> pd.DataFrame:
 	return output_data
 
 
-def _get_image_meta(bin_images: list[Image.Image]) -> list[tuple[str, datetime, float, float]]:
+def _get_image_meta(bin_images):
 	res = []
 	for image in bin_images:
 		raw_exif = image._getexif()
@@ -114,11 +114,11 @@ def _get_exif_with_preparing(exif, tag, preparing_function):
 	return data
 
 
-def _prepare_date(str_date: str) -> datetime.datetime:
+def _prepare_date(str_date):
 	return datetime.datetime.strptime(str_date, "%Y:%m:%d %H:%M:%S")
 
 
-def _prepare_gps(data: dict) -> tuple[float, float]:
+def _prepare_gps(data):
 	lon = data.get(2)
 	lat = data.get(4)
 
@@ -129,7 +129,7 @@ def _prepare_gps(data: dict) -> tuple[float, float]:
 	return to_degree(lon), to_degree(lat)
 
 
-def _get_pil_images(images_paths: list[str]) -> Image.Image:
+def _get_pil_images(images_paths):
 	bin_images = []
 	for path in images_paths:
 		bin_images.append(Image.open(path))
@@ -137,6 +137,6 @@ def _get_pil_images(images_paths: list[str]) -> Image.Image:
 	return bin_images
 
 
-def _close_pil_images(bin_images: list[Image.Image]):
+def _close_pil_images(bin_images):
 	for image in bin_images:
 		image.close()
