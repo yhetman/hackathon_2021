@@ -1,9 +1,10 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from .forms import *
-from app.settings import MEDIA_ROOT, MEDIA_URL
 from django.urls import reverse
-
+from .exif_sorter import get_images_paths, get_meta, add_clusters_by_date, add_clusters_by_gps
+from .clarity import clusters_by_clarity
+from .sort_images import sort_images
 
 def main(request):
     return render(request, 'main/main.html')
@@ -30,6 +31,9 @@ def display_images(request):
 
     if request.method == 'POST':
         # тут вставляйте методы
+
+        add_clusters_by_date(get_meta(get_images_paths()))
+        sort_images(clusters_by_clarity(add_clusters_by_gps(add_clusters_by_date(get_meta(get_images_paths())))))
 
         import os, sys
         directory = r'media/result'

@@ -5,12 +5,12 @@ import os
 import time
 import cv2
 
-PATH = "/media/input/"
+PATH = r'/media/input/'
 
 
 
 
-def clusters_by_clarity(data: pd.DataFrame) -> pd.DataFrame:
+def clusters_by_clarity(data):
     """
     Clusters images by quality
 
