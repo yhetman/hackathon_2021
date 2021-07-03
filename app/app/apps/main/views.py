@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .forms import *
+from app.settings import MEDIA_ROOT, MEDIA_URL
 from django.urls import reverse
 
 
@@ -29,7 +30,26 @@ def display_images(request):
 
     if request.method == 'POST':
         # тут вставляйте методы
-        return render(request, 'main/display_sorted_images.html')
+
+        import os, sys
+        directory = r'media/result'
+
+        directories_m = []
+        files_m = []
+
+        for root, subdirectories, files in os.walk(directory):
+            for subdirectory in subdirectories:
+                print(os.path.join(root, subdirectory))
+                directories_m.append(os.path.join(root, subdirectory))
+            for file in files:
+                print(os.path.join(root, file))
+                files_m.append(os.path.join(root, file))
+                
+        print(directories_m)
+        print(files_m)
+
+        return render(request, 'main/display_sorted_images.html', {'directories': directories_m,
+                                                                   'files': files_m})
 
 
 def delete_image(request, img_id):
