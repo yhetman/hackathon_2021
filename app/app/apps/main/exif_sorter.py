@@ -13,7 +13,7 @@ ONE_DAY_IN_SEC = (datetime.datetime(1970, 1, 2) - datetime.datetime(1970, 1, 1))
 GPS_DISTANCE = 0.2
 
 PATH = r'media/images/'
-COMPILED_PATTERN_FILE = re.compile(r"\w*.(png|jpg)")
+COMPILED_PATTERN_FILE = re.compile(r"\w*.(png|jpg|JPG|jpeg)")
 
 def get_images_paths():
 	files_in_folder = []
@@ -34,11 +34,9 @@ def get_meta(images_paths):
 	path_with_meta = _get_image_meta(pil_images)
 	_close_pil_images(pil_images)
 
-	return pil_images
-
-		#pd.DataFrame(
-		#data=path_with_meta,
-		#columns=["path", "date", "longitude", "latitude"])
+	return pd.DataFrame(
+		data=path_with_meta,
+		columns=["path", "date", "longitude", "latitude"])
 
 
 def add_clusters_by_gps(data):
