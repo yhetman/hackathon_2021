@@ -2,11 +2,11 @@ import pandas as pd
 from shutil import copyfile
 
 
-PATH = r'/media/input/'
-DATE_PATH = r'/media/output/date/'
-TIME_PATH = r'/media/output/time/'
-CLARITY_PATH = r'/media/output/path/'
-WITHOUT_GROUP_PATH = r'/media/output/without/'
+PATH = r'media/input/'
+DATE_PATH = r'media/result/date/'
+TIME_PATH = r'media/result/time/'
+CLARITY_PATH = r'media/result/path/'
+WITHOUT_GROUP_PATH = r'media/result/without/'
 
 def sort_images(data):
     for image in data.iterrows():

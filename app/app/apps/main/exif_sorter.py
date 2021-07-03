@@ -11,7 +11,7 @@ warnings.filterwarnings('ignore')
 ONE_DAY_IN_SEC = (datetime.datetime(1970, 1, 2) - datetime.datetime(1970, 1, 1)).total_seconds()
 GPS_DISTANCE = 0.2
 
-PATH = r'/media/input/'
+PATH = r'media/input/'
 
 
 def get_images_paths():
