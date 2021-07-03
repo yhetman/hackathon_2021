@@ -2,7 +2,7 @@ import pandas as pd
 from shutil import copyfile
 
 
-PATH = r'media/input/'
+PATH = r'media/images/'
 DATE_PATH = r'media/result/date/'
 TIME_PATH = r'media/result/time/'
 CLARITY_PATH = r'media/result/path/'
@@ -17,4 +17,4 @@ def sort_images(data):
         elif(image["date"] != -1):
             copyfile(PATH + image["path"], WITHOUT_GROUP_PATH + image["path"])
 
-        if(image["clarity"]): copyfile(PATH + image["path"], CLARITY_PATH + image["path"])
+        if(image['clarity']): copyfile(PATH + image['path'], CLARITY_PATH + image["path"])

@@ -5,7 +5,7 @@ import os
 import time
 import cv2
 
-PATH = r'media/input/'
+PATH = r'media/images/'
 
 
 

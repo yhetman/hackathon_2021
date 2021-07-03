@@ -32,7 +32,6 @@ def display_images(request):
     if request.method == 'POST':
         # тут вставляйте методы
 
-        add_clusters_by_date(get_meta(get_images_paths()))
         sort_images(clusters_by_clarity(add_clusters_by_gps(add_clusters_by_date(get_meta(get_images_paths())))))
 
         import os, sys
