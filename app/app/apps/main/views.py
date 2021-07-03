@@ -31,23 +31,7 @@ def display_images(request):
     if request.method == 'POST':
         # тут вставляйте методы
 
-        import os, sys
-        directory = r'media/result'
-
-        directories_m = []
-        files_m = []
-
-        for root, subdirectories, files in os.walk(directory):
-            for subdirectory in subdirectories:
-                print(os.path.join(root, subdirectory))
-                directories_m.append(os.path.join(root, subdirectory))
-            for file in files:
-                print(os.path.join(root, file))
-                files_m.append(os.path.join(root, file))
-                
-        print(directories_m)
-        print(files_m)
-
+        directories_m, files_m = get_paths()
         return render(request, 'main/display_sorted_images.html', {'directories': directories_m,
                                                                    'files': files_m})
 
@@ -65,4 +49,22 @@ def delete_image(request, img_id):
     return HttpResponseRedirect(reverse('main:display_images'))
 
 
+def get_paths():
+    import os, sys
+    directory = r'media/result'
+    directories_m = []
+    files_m = []
+    i = 0
+    j = 0
+    for root, subdirectories, files in os.walk(directory):
+        for subdirectory in subdirectories:
+            print(os.path.join(root, subdirectory))
+            directories_m.append(os.path.join(root, subdirectory))
+        for file in files:
+            print(os.path.join(root, file))
+            files_m.append(os.path.join(root, file))
 
+    print(directories_m)
+    print(files_m)
+
+    return directories_m, files_m
