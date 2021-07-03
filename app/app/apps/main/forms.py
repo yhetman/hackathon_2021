@@ -8,7 +8,7 @@ class OurImgForm(forms.ModelForm):
     #                        localize=True,
     #                        widget=widgets.TextInput(attrs={'size': 1, 'class': 'form-control'}))
 
-    img = forms.ImageField(label=('Фото'), required=False, error_messages={'invalid': ("Image files only")},
+    img = forms.FileField(label=('Фото'), required=False,
                            widget=widgets.FileInput(attrs={'size': 1, 'class': 'form-control'}))
 
     class Meta:
