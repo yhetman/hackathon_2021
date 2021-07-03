@@ -13,9 +13,9 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.main, name='main'),
-    path('add_img', views.add_img, name='add_img'),
-    path('display_imgs', views.display_imgs, name='display_imgs'),
-    path('display_imgs/<int:img_id>/delete_img', views.delete_img, name='delete_img'),
+    path('add_images', views.add_images, name='add_image'),
+    path('display_images', views.display_images, name='display_images'),
+    path('display_images/<int:img_id>/delete_image', views.delete_image, name='delete_image'),
 
     # path('success', views.success, name='success'),
     # path('signup', views.user_sign_up, name='user_sign_up'),
@@ -24,5 +24,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

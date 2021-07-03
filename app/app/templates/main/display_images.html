@@ -16,7 +16,7 @@
                                <h1 align="center">Перелік завантажених фото</h1>
                             </td>
                             <td align="left">
-                                <h1><a href="/add_img" class="badge badge-info">+</a></h1>
+                                <h1><a href="/add_images" class="badge badge-info">+</a></h1>
                             </td>
                         </tr>
                     </table>
@@ -33,36 +33,33 @@
                 <article class="card-body ">
 
                     {% if imgs|length > 0 %}
-                     <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col" align="center">Name</th>
-                                <th scope="col" align="center">Photo</th>
-                                <th scope="col"></th>
-                            </tr>
-                            </thead>
+                     <table class="table" border="1">
+<!--                            <thead>-->
+<!--                            <tr align="center">-->
+<!--&lt;!&ndash;                                <th scope="col">Name</th>&ndash;&gt;-->
+<!--                                <th scope="col" colspan="2">Photos</th>-->
+<!--&lt;!&ndash;                                <th scope="col"></th>&ndash;&gt;-->
+<!--                            </tr>-->
+<!--                            </thead>-->
                          <tbody>
-                    {% for el in imgs %}
-<!--                    <div class="col-md-4">-->
-                        <tr>
-                            <td> {{ el.name }}</td>
-                            <td><img src="{{ el.image.url }}" class="img-responsive" style="width: 75%; float: center; margin-right: 10px;" /></td>
-                            <td>
-                                <a href="/display_imgs/{{el.id}}/delete_img" class="btn btn-info btn-outline-light">Видалити</a>
-                            </td>
-                        </tr>
+
+                         {% for el in imgs %}
+                         <tr align="center">
+                             <td> {{ el.name }}</td>
+                             <td><img src="{{ el.image.url }}" class="img-responsive" style="width: 75%; float: center;"/></td>
+                             <td><a href="/display_imgs/{{el.id}}/delete_img" class="btn btn-info btn-outline-light">Видалити</a></td>
+                         </tr>
                          {% endfor %}
+
                          </tbody>
                      </table>
 
-
-
-<!--                    </div>-->
-
                     {% else %}
+
                     <div class="alert alert-info">
                         <h3>У Вас ще немає завантажених фото</h3>
                     </div>
+
                     {% endif %}
                 </article>
             </div>

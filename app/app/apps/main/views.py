@@ -8,60 +8,29 @@ def main(request):
     return render(request, 'main/main.html')
 
 
-def add_img(request):
+def add_images(request):
     if request.method == 'POST':
-        data = request.POST
         images = request.FILES.getlist('images')
 
         for image in images:
             new_photo = Photo(image=image)
             new_photo.name = new_photo.image.name
             new_photo.save()
-            # photo = Photo.objects.create(
-            #     image=image,
-            #     name=photo.image.name
-            # )
+
+        return HttpResponseRedirect(reverse('main:display_images'))
+
+    return render(request, 'main/add_images.html')
 
 
-        return HttpResponseRedirect(reverse('main:main'))
-
-    return render(request, 'main/add_img.html')
-
-    # if request.method == 'POST':
-    #     images = request.FILES.get('images')
-    #
-    #     for image in images:
-    #         new_photo = OurImg(img=image)
-    #         # new_photo.name = new_photo.img.attr_class
-    #         new_photo.save()
-    #
-    #     return HttpResponseRedirect(reverse('main:main'))
-    #
-    # return render(request, 'main/add_img.html')
-    #
-    # # if request.method == 'POST':
-    # #     form = OurImgForm(request.POST, request.FILES)
-    # #
-    # #     if form.is_valid():
-    # #         cd = form.cleaned_data
-    # #         new_photo = OurImg(img=cd['img'])
-    # #         new_photo.name = new_photo.img.name
-    # #         new_photo.save()
-    # #         return HttpResponseRedirect(reverse('main:main'))
-    # # else:
-    # #     form = OurImgForm()
-    # # return render(request, 'main/add_img.html', {'form': form})
-
-
-def display_imgs(request):
+def display_images(request):
     if request.method == 'GET':
-        # imgs = OurImg.objects.all()
-        imgs = Photo.objects.all()
-        return render(request, 'main/display_imgs.html', {'imgs': imgs})
+        images = Photo.objects.all()
+        return render(request, 'main/display_images.html', {'imgs': images})
 
 
-def delete_img(request, img_id):
+def delete_image(request, img_id):
     cur_img = None
+
     try:
         cur_img = Photo.objects.get(id=img_id)
     except:
@@ -69,4 +38,4 @@ def delete_img(request, img_id):
 
     cur_img.delete()
 
-    return HttpResponseRedirect(reverse('main:display_imgs'))
+    return HttpResponseRedirect(reverse('main:display_images'))
