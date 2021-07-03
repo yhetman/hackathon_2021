@@ -1,0 +1,73 @@
+{% extends 'base_m.html' %}
+
+{% block title %}
+Перелік завантажених фото
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <aside class="col-sm-10">
+            <div class="card">
+                <article class="card-body">
+                    <table class="col-sm-12" border="0">
+                        <tr>
+                            <td>
+                               <h1 align="center">Перелік завантажених фото</h1>
+                            </td>
+                            <td align="left">
+                                <h1><a href="/add_images" class="badge badge-info">+</a></h1>
+                            </td>
+                        </tr>
+                    </table>
+                </article>
+            </div>
+        </aside>
+    </div>
+</div>
+
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <aside class="col-sm-10">
+            <div class="card">
+                <article class="card-body">
+                    <form method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <button class="btn btn-large btn-block btn-outline-info" type="submit">Сортувати</button>
+                    </form>
+                </article>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <aside class="col-sm-10">
+            <div class="card">
+                <article class="card-body ">
+                    {% if imgs|length > 0 %}
+                     <table class="table" border="0">
+                         <tbody>
+                         {% for el in imgs %}
+                         <tr align="center">
+                             <td> {{ el.name }}</td>
+                             <td><img src="{{el.image.url}}" class="img-responsive" style="width: 75%; float: center;"/></td>
+                             <td><a href="/display_images/{{el.id}}/delete_image" class="btn btn-outline-info">Видалити</a></td>
+                         </tr>
+                         {% endfor %}
+                         </tbody>
+                     </table>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <h3>У Вас ще немає завантажених фотографій</h3>
+                    </div>
+                    {% endif %}
+                </article>
+            </div>
+      </aside>
+   </div>
+</div>
+
+{% endblock %}
