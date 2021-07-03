@@ -26,6 +26,22 @@
     </div>
 </div>
 
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <aside class="col-sm-10">
+            <div class="card">
+                <article class="card-body">
+                    <form method = "post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <button class="btn btn-large btn-block btn-outline-info" type="submit">Сортувати</button>
+                    </form>
+                </article>
+            </div>
+        </aside>
+    </div>
+</div>
+
 <div class="container mt-5">
     <div class="d-flex justify-content-center">
         <aside class="col-sm-10">
@@ -38,7 +54,7 @@
                          <tr align="center">
                              <td> {{ el.name }}</td>
                              <td><img src="{{el.image.url}}" class="img-responsive" style="width: 75%; float: center;"/></td>
-                             <td><a href="/display_images/{{el.id}}/delete_image" class="btn btn-info btn-outline-light">Видалити</a></td>
+                             <td><a href="/display_images/{{el.id}}/delete_image" class="btn btn-outline-info">Видалити</a></td>
                          </tr>
                          {% endfor %}
                          </tbody>

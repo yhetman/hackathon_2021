@@ -27,6 +27,10 @@ def display_images(request):
         images = Photo.objects.all()
         return render(request, 'main/display_images.html', {'imgs': images})
 
+    if request.method == 'POST':
+        # тут вставляйте методы
+        return render(request, 'main/display_sorted_images.html')
+
 
 def delete_image(request, img_id):
     cur_img = None
@@ -39,3 +43,6 @@ def delete_image(request, img_id):
     cur_img.delete()
 
     return HttpResponseRedirect(reverse('main:display_images'))
+
+
+
