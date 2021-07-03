@@ -1,6 +1,7 @@
 import datetime
 import pandas as pd
 import warnings
+import os
 
 from sklearn.cluster import DBSCAN
 from PIL import Image, ExifTags
@@ -10,6 +11,16 @@ warnings.filterwarnings('ignore')
 ONE_DAY_IN_SEC = (datetime.datetime(1970, 1, 2) - datetime.datetime(1970, 1, 1)).total_seconds()
 GPS_DISTANCE = 0.2
 
+PATH = "/media/input/"
+
+def get_images_paths():
+	res = []
+	# чтение записей
+	with os.scandir(PATH) as listOfEntries:
+		for entry in listOfEntries:
+			# , являющихся файлами
+			if entry.is_file(): res.append(entry)
+	return res
 
 def get_meta(images_paths: list[str]) -> pd.DataFrame:
 	"""
