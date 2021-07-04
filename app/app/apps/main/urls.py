@@ -16,6 +16,8 @@ urlpatterns = [
     path('add_images', views.add_images, name='add_image'),
     path('display_images', views.display_images, name='display_images'),
     path('display_images/<int:img_id>/delete_image', views.delete_image, name='delete_image'),
+path('download', views.download, name='download'),
+
 
     # path('success', views.success, name='success'),
     # path('signup', views.user_sign_up, name='user_sign_up'),

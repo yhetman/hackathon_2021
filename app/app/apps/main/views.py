@@ -31,25 +31,15 @@ def display_images(request):
 
     if request.method == 'POST':
 
-        import os, sys
+        # тут вставляйте методы
+
+
         directory = r'media/result'
-
-        directories_m = []
-        files_m = []
-
-        for root, subdirectories, files in os.walk(directory):
-            for subdirectory in subdirectories:
-                print(os.path.join(root, subdirectory))
-                directories_m.append(os.path.join(root, subdirectory))
-            for file in files:
-                print(os.path.join(root, file))
-                files_m.append(os.path.join(root, file))
-                
-        print(directories_m)
-        print(files_m)
-
+        directories_m, files_m = get_paths(directory=directory)
+        zip_name = zip_sorted_directories(directory=directory)
         return render(request, 'main/display_sorted_images.html', {'directories': directories_m,
-                                                                   'files': files_m})
+                                                                   'files': files_m,
+                                                                   'zip_name': zip_name})
 
 
 def delete_image(request, img_id):
@@ -65,4 +55,42 @@ def delete_image(request, img_id):
     return HttpResponseRedirect(reverse('main:display_images'))
 
 
+def download(request):
+    zipFileName = 'sorted_photos.zip'
+    content_type = "application/octet-stream"
+    response = HttpResponse(zipFileName, content_type=content_type)
 
+    response["Content-Disposition"] = "attachment; filename=" + str(zipFileName)
+    return response
+
+
+def get_paths(directory):
+    import os, sys
+
+    directories_m = []
+    files_m = []
+
+    for root, subdirectories, files in os.walk(directory):
+        for subdirectory in subdirectories:
+            print(os.path.join(root, subdirectory))
+            directories_m.append(os.path.join(root, subdirectory))
+        for file in files:
+            print(os.path.join(root, file))
+            files_m.append(os.path.join(root, file))
+
+    return directories_m, files_m
+
+
+def zip_sorted_directories(directory):
+    from zipfile import ZipFile
+    import os
+    from os.path import basename
+
+    zipFileName = 'sorted_photos.zip'
+    with ZipFile(zipFileName, 'w') as zipObj:
+        for folderName, subfolders, filenames in os.walk(directory):
+            for filename in filenames:
+                filePath = os.path.join(folderName, filename)
+                zipObj.write(filePath, basename(filePath))
+
+    return zipFileName

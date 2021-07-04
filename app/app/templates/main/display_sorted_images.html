@@ -20,9 +20,31 @@
     </div>
 </div>
 
-{% for el in directories %}
-<p>el</p>
-<br>
+{% for directory in directories %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <aside class="col-sm-10">
+            <div class="card">
+                <article class="card-body">
+                    <h4 align="center"><p>{{directory}}</p></h4>
+                    <hr>
+                    <table class="table" border="0">
+                        <tbody>
+                        {% for file in files %}
+                        {% if directory in file %}
+                        <tr align="center">
+                            <td> {{file}}</td>
+                            <td><img src="{{file}}" class="img-responsive" style="width: 75%; float: center;"/></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </article>
+            </div>
+        </aside>
+    </div>
+</div>
 {% endfor %}
 
 
