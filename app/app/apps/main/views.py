@@ -33,7 +33,7 @@ def display_images(request):
 
         # тут вставляйте методы
 
-
+        sort_images(clusters_by_clarity(add_clusters_by_gps(add_clusters_by_date(get_meta(get_images_paths())))))
         directory = r'media/result'
         directories_m, files_m = get_paths(directory=directory)
         zip_name = zip_sorted_directories(directory=directory)
