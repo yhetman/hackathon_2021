@@ -30,9 +30,6 @@ def display_images(request):
         return render(request, 'main/display_images.html', {'imgs': images})
 
     if request.method == 'POST':
-        # тут вставляйте методы
-
-        sort_images(clusters_by_clarity(add_clusters_by_gps(add_clusters_by_date(get_meta(get_images_paths())))))
 
         import os, sys
         directory = r'media/result'
