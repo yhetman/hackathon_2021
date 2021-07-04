@@ -20,6 +20,7 @@
     </div>
 </div>
 
+
 {% for directory in directories %}
 <div class="container mt-5">
     <div class="d-flex justify-content-center">
@@ -27,25 +28,29 @@
             <div class="card">
                 <article class="card-body">
                     <h4 align="center"><p>{{directory}}</p></h4>
-                    <hr>
-                    <table class="table" border="0">
-                        <tbody>
-                        {% for file in files %}
-                        {% if directory in file %}
-                        <tr align="center">
-                            <td> {{file}}</td>
-                            <td><img src="{{file}}" class="img-responsive" style="width: 75%; float: center;"/></td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        </tbody>
-                    </table>
                 </article>
             </div>
         </aside>
     </div>
 </div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-center">
+        <div class="row">
+            {% for file in files %}
+            {% if directory in file %}
+            <div class="col-md-4">
+                <table class="table">
+                    <tr>
+                        <td><img src="{{file}}" class="img-responsive" style="width: 75%; float: center;"/></td>
+                    </tr>
+                </table>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endfor %}
-
-
 {% endblock %}

@@ -8,8 +8,6 @@ import cv2
 PATH = r'media/images/'
 
 
-
-
 def clusters_by_clarity(data):
     """
     Clusters images by quality
