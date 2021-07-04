@@ -6,6 +6,7 @@ from .exif_sorter import get_images_paths, get_meta, add_clusters_by_date, add_c
 from .clarity import clusters_by_clarity
 from .sort_images import sort_images
 
+
 def main(request):
     return render(request, 'main/main.html')
 
@@ -31,12 +32,16 @@ def display_images(request):
 
     if request.method == 'POST':
 
-        # тут вставляйте методы
         sort_images(add_clusters_by_gps(add_clusters_by_date(get_meta(get_images_paths()))))
         clusters_by_clarity()
 
         directory = r'media/result'
         directories_m, files_m = get_paths(directory=directory)
+
+        directories_m = remove_extra_paths(directory=directory)
+
+        print(directories_m)
+
         zip_name = zip_sorted_directories(directory=directory)
         return render(request, 'main/display_sorted_images.html', {'directories': directories_m,
                                                                    'files': files_m,
@@ -73,13 +78,37 @@ def get_paths(directory):
 
     for root, subdirectories, files in os.walk(directory):
         for subdirectory in subdirectories:
-            print(os.path.join(root, subdirectory))
             directories_m.append(os.path.join(root, subdirectory))
         for file in files:
-            print(os.path.join(root, file))
             files_m.append(os.path.join(root, file))
 
     return directories_m, files_m
+
+
+def remove_extra_paths(directory):
+    import os, sys
+
+    tmp = []
+    new_d = []
+
+    for root, subdirectories, files in os.walk(directory):
+        for subdirectory in subdirectories:
+            tmp.append(os.path.join(root, subdirectory))
+
+    for el in tmp:
+        print(f'now see --> {el}')
+        if not check_if_sub_path(el, tmp):
+            new_d.append(el)
+
+    return new_d
+
+
+def check_if_sub_path(el, arr):
+    for a in arr:
+        if el in a:
+            print(f'      {el} was found as subdirectory')
+            return True
+        return False
 
 
 def zip_sorted_directories(directory):

@@ -9,7 +9,6 @@ PATH = r'media/images/'
 CLARITY_PATH = r'media/result/low_quality/'
 
 
-
 # edges
 def edges(n, orient):
     edges = np.ones((2 * n, 2 * n, 3))

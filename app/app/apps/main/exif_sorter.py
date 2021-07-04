@@ -15,12 +15,14 @@ GPS_DISTANCE = 0.2
 PATH = r'media/images/'
 COMPILED_PATTERN_FILE = re.compile(r"\w*.(png|jpg|JPG|jpeg)")
 
+
 def get_images_paths():
 	files_in_folder = []
 	for file in os.listdir(PATH):
 		if COMPILED_PATTERN_FILE.fullmatch(file) is not None:
 			files_in_folder.append(os.path.join(PATH, file))
 	return files_in_folder
+
 
 def get_meta(images_paths):
 	"""
