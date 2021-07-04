@@ -1,11 +1,16 @@
 import datetime
 import pandas as pd
 import warnings
+import numpy as np
+import cv2
 import os
-
 from sklearn.cluster import DBSCAN
 from PIL import Image, ExifTags
 import re
+from tensorflow.keras.applications.resnet50 import ResNet50
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions
+
 
 warnings.filterwarnings('ignore')
 
@@ -14,6 +19,7 @@ GPS_DISTANCE = 0.2
 
 PATH = r'media/images/'
 COMPILED_PATTERN_FILE = re.compile(r"\w*.(png|jpg|JPG|jpeg)")
+MODEL = ResNet50(weights='imagenet')
 
 
 def get_images_paths():
@@ -153,3 +159,18 @@ def _get_pil_images(images_paths) :
 def _close_pil_images(bin_images):
 	for image in bin_images:
 		image.close()
+
+def add_class(data):
+	res = []
+	for path in data["path"]:
+		x = cv2.imread(path, cv2.COLOR_BGR2RGB)
+		x = cv2.resize(x, (224, 224))
+		x = np.expand_dims(x, axis=0)
+		x = preprocess_input(x)
+
+		preds = MODEL.predict(x)
+		res.append(decode_predictions(preds, top=1)[0][0][1])
+
+	res_data = data.copy()
+	res_data["class"] = res
+	return res_data
