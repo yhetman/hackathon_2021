@@ -5,7 +5,8 @@ from django.urls import reverse
 from .exif_sorter import get_images_paths, get_meta, add_clusters_by_date, add_clusters_by_gps
 from .clarity import clusters_by_clarity
 from .sort_images import sort_images
-
+from .duplicate import compare_images
+import shutil
 
 def main(request):
     return render(request, 'main/main.html')
@@ -31,9 +32,10 @@ def display_images(request):
         return render(request, 'main/display_images.html', {'imgs': images})
 
     if request.method == 'POST':
-
+        shutil.rmtree(r'media/result')
         sort_images(add_clusters_by_gps(add_clusters_by_date(get_meta(get_images_paths()))))
         clusters_by_clarity()
+        compare_images()
 
         directory = r'media/result'
         directories_m, files_m = get_paths(directory=directory)

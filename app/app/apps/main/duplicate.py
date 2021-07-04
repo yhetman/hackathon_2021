@@ -2,7 +2,6 @@
 #not finished
 
 import skimage.measure
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import os
@@ -10,12 +9,12 @@ import shutil
 import imghdr
 
 
-IMAGE_PATH = r'./../../../media/images/'
-DATE_PATH = r'./../../../media/result/date/'
-LOCATION_PATH = r'./../../../media/result/location/'
-WITHOUT_GROUP_PATH = r'./../../../media/result/without/'
-DUPLICATES_PATH = r"./../../../media/result/duplicates/"
-
+IMAGE_PATH = r'media/images/'
+DATE_PATH = r'media/result/date/'
+LOCATION_PATH = r'media/result/location/'
+WITHOUT_GROUP_PATH = r'media/result/without/'
+DUPLICATES_PATH = r"media/result/duplicates/"
+CLARITY_PATH = r'media/result/low_quality/'
 
 def compare_images():
     res = []
@@ -23,14 +22,22 @@ def compare_images():
     if not os.path.exists(DUPLICATES_PATH):
         os.mkdir(DUPLICATES_PATH)
 
-    for folder in [DATE_PATH, LOCATION_PATH, WITHOUT_GROUP_PATH]:
-        duplicates = compare_group_images(folder)
-        for path in duplicates:
-            shutil.move(path, DUPLICATES_PATH)
+    for folder in [DATE_PATH, LOCATION_PATH, WITHOUT_GROUP_PATH, CLARITY_PATH ]:
+        directory_list = list()
+        for root, dirs, files in os.walk(folder, topdown=False):
+            for name in dirs:
+                directory_list.append(os.path.join(root, name))
+        for root in directory_list:
+            duplicates = compare_group_images(root + "/")
+            for path in duplicates:
+                try:
+                    shutil.move(root + "/"  + path, DUPLICATES_PATH)
+                except:
+                    os.remove(root + "/" + path)
 
 
 
-def compare_group_images(directory, show_imgs=True, similarity="high", compression=50):
+def compare_group_images(directory, show_imgs=True, similarity="high", compression=100):
     """
     directory (str).........folder to search for duplicate/similar images
     show_imgs (bool)........True = shows the duplicate/similar images found in output
@@ -49,18 +56,18 @@ def compare_group_images(directory, show_imgs=True, similarity="high", compressi
 
     # search for similar images
     if similarity == "low":
-        ref = 1000
+        ref = 13000
     # search for 1:1 duplicate images
     else:
-        ref = 200
+        ref = 21000
 
     main_img = 0
     compared_img = 1
     nrows, ncols = compression, compression
     srow_A = 0
-    erow_A = nrows
+    erow_A = compression
     srow_B = erow_A
-    erow_B = srow_B + nrows
+    erow_B = srow_B + compression
 
     while erow_B <= imgs_matrix.shape[0]:
         while compared_img < (len(image_files)):
@@ -75,21 +82,21 @@ def compare_group_images(directory, show_imgs=True, similarity="high", compressi
                 if rotations != 0:
                     imgB = rotate_img(imgB)
                 err = mse(imgA, imgB)
-                if err < ref:
+                print ( "err:", err)
+                if err <= ref:
                     if show_imgs == True:
-                        show_img_figs(imgA, imgB, err)
                         show_file_info(compared_img, main_img)
                     add_to_list(image_files[main_img], duplicates)
                     check_img_quality(directory, image_files[main_img], image_files[compared_img], lower_res)
                 rotations += 1
-            srow_B += nrows
-            erow_B += nrows
+            srow_B += compression
+            erow_B += compression
             compared_img += 1
 
-        srow_A += nrows
-        erow_A += nrows
+        srow_A += compression
+        erow_A += compression
         srow_B = erow_A
-        erow_B = srow_B + nrows
+        erow_B = srow_B + compression
         main_img += 1
         compared_img = main_img + 1
 
@@ -108,9 +115,10 @@ def create_imgs_matrix(directory, compression):
 
     # create images matrix
     counter = 0
+    imgs_matrix = cv2.imdecode(np.fromfile(directory + folder_files[0], dtype=np.uint8), cv2.IMREAD_UNCHANGED)
     for filename in folder_files:
         if not os.path.isdir(directory + filename) and imghdr.what(directory + filename):
-            img = cv2.imdecode(np.fromfile(directory + filename, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+            img = cv2.imdecode(np.fromfile(directory  + filename, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
             if type(img) == np.ndarray:
                 img = img[..., 0:3]
                 img = cv2.resize(img, dsize=(compression, compression), interpolation=cv2.INTER_CUBIC)
@@ -129,22 +137,6 @@ def mse(imageA, imageB):
     err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
     err /= float(imageA.shape[0] * imageA.shape[1])
     return err
-
-
-# Function that plots two compared image files and their mse
-def show_img_figs(imageA, imageB, err):
-    fig = plt.figure()
-    plt.suptitle("MSE: %.2f" % (err))
-    # plot first image
-    ax = fig.add_subplot(1, 2, 1)
-    plt.imshow(imageA, cmap=plt.cm.gray)
-    plt.axis("off")
-    # plot second image
-    ax = fig.add_subplot(1, 2, 2)
-    plt.imshow(imageB, cmap=plt.cm.gray)
-    plt.axis("off")
-    # show the images
-    plt.show()
 
 
 # Function for rotating an image matrix by a 90 degree angle
