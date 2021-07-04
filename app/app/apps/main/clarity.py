@@ -208,10 +208,10 @@ def clusters_by_clarity():
         print("k[", i, "]=", k[i])
         if (k[i] < 8):
             try:
-                copyfile(PATH + img_names[i], CLARITY_PATH + img_names[i][12:])
+                copyfile(PATH + img_names[i], CLARITY_PATH + img_names[i])
             except IOError as io_err:
-                os.makedirs(os.path.dirname(CLARITY_PATH +img_names[i][12:]))
-                copyfile(PATH + img_names[i], CLARITY_PATH + img_names[i][12:])
+                os.makedirs(os.path.dirname(CLARITY_PATH+ img_names[i]))
+                copyfile(PATH + img_names[i], CLARITY_PATH + img_names[i])
 
 
 
