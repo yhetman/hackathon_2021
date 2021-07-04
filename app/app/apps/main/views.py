@@ -38,15 +38,16 @@ def display_images(request):
         compare_images()
 
         directory = r'media/result'
-        directories_m, files_m = get_paths(directory=directory)
+        directories, files = get_paths(directory=directory)
 
-        directories_m = remove_extra_paths(directory=directory)
+        directories = remove_extra_paths(directory=directory)
 
-        print(directories_m)
-
+        print(directories)
+        print(files)
         zip_name = zip_sorted_directories(directory=directory)
-        return render(request, 'main/display_sorted_images.html', {'directories': directories_m,
-                                                                   'files': files_m,
+
+        return render(request, 'main/display_sorted_images.html', {'directories': directories,
+                                                                   'files': files,
                                                                    'zip_name': zip_name})
 
 
