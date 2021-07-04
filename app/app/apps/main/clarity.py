@@ -22,8 +22,13 @@ def clusters_by_clarity(data):
     filenames['clarity'] = 0
     for file in filenames.iterrows():
         img = cv2.imread(file[1][0])
-        img = cv2.resize(img, (256, 256))
-        file[1][6] = orig_blur(img, filter_size=1, stride=1)
+        scale_percent = 100  # percent of original size
+        if (img.shape[1] < 1000 or img.shape[0] < 1000):
+
+            width = int(img.shape[1] * scale_percent / 100)
+            height = int(img.shape[0] * scale_percent / 100)
+            dim = (width, height)
+            file[1][6] = orig_blur(img, filter_size=1, stride=1)
 
     output_data = data.append(filenames, sort=False)
     return output_data
@@ -199,8 +204,11 @@ def orig_blur(image, filter_size=1, stride=3, pool_stride=2, pool_size=2, blur=5
                              pool_size=pool_size,
                              z_max=z_max
                              )
-    clarity_score = np.mean(img) / np.mean(blurred)
-
-    return (clarity_score < 8) # 0 - ok, 1 - not ok image
+    k = [np.mean(img) / np.mean(blurred) for (img, blurred) in zip(img, blurred)]
+    clarity_score = k[0]
+    res = 0
+    if (clarity_score < 8): res = 1
+    print( "Clarity_score :", clarity_score, "res =", res)
+    return res # 0 - ok, 1 - not ok image
 
 # img_names, images = download() // don't need

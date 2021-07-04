@@ -32,7 +32,7 @@ def sort_images(data):
                 os.makedirs(os.path.dirname(WITHOUT_GROUP_PATH + image[1][0][12:]))
                 copyfile(image[1][0], WITHOUT_GROUP_PATH + image[1][0][12:])
 
-        if(image[1][5]==1):
+        if(image[1][6]==1):
             try:
                 copyfile(image[[1][0], CLARITY_PATH + image[1][0][12:]])
             except IOError as io_err:
