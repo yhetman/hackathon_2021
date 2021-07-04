@@ -6,10 +6,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import os
+import shutil
 import imghdr
 
 
-def compare_images(directory, show_imgs=True, similarity="high", compression=50):
+IMAGE_PATH = r'./../../../media/images/'
+DATE_PATH = r'./../../../media/result/date/'
+LOCATION_PATH = r'./../../../media/result/location/'
+WITHOUT_GROUP_PATH = r'./../../../media/result/without/'
+DUPLICATES_PATH = r"./../../../media/result/duplicates/"
+
+
+def compare_images():
+    res = []
+
+    if not os.path.exists(DUPLICATES_PATH):
+        os.mkdir(DUPLICATES_PATH)
+
+    for folder in [DATE_PATH, LOCATION_PATH, WITHOUT_GROUP_PATH]:
+        duplicates = compare_group_images(folder)
+        for path in duplicates:
+            shutil.move(path, DUPLICATES_PATH)
+
+
+
+def compare_group_images(directory, show_imgs=True, similarity="high", compression=50):
     """
     directory (str).........folder to search for duplicate/similar images
     show_imgs (bool)........True = shows the duplicate/similar images found in output
@@ -151,3 +172,5 @@ def check_img_quality(directory, imageA, imageB, list):
     else:
         add_to_list(imageA, list)
 
+if __name__ == "__main__":
+    compare_images()
