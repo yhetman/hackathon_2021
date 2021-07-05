@@ -30,7 +30,7 @@ def sort_images(data):
          #   except IOError as io_err:
           #      os.makedirs(os.path.dirname(CLASS_PATH + str(image[1][6]) + "/" + image[1][0][12:]))
             #    copyfile(image[1][0], CLASS_PATH + str(image[1][6]) + "/" + image[1][0][12:])
-        if (image[1][5] == -1 and image[1][4] == -1): #  and image[1][6] == -1):
+        if (image[1][5] == -1 and image[1][4] == -1): #   and image[1][6] == -1):
             try:
                 copyfile(image[1][0], WITHOUT_GROUP_PATH + image[1][0][12:])
             except IOError as io_err:
