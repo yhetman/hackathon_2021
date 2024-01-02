@@ -1,5 +1,4 @@
 # hackathon_2021
-Preparation for penetration into master`s ahuevation
 
 That's program is a solution for third task (Sort Images (CV) from Apostera) at the CSC Hackaton 2021.
 
